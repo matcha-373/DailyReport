@@ -106,6 +106,7 @@ public class EmployeeController {
         }
         employee.setPassword("");
         model.addAttribute("employee", employee);
+        model.addAttribute("code", code);
 
         return "employees/update";
     }

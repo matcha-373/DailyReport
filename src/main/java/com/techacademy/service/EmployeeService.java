@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.techacademy.constants.ErrorKinds;
+import com.techacademy.constants.ErrorMessage;
 import com.techacademy.entity.Employee;
 import com.techacademy.repository.EmployeeRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,17 +55,23 @@ public class EmployeeService {
     // 従業員更新
     @Transactional
     public ErrorKinds update(Employee employee) {
+        Employee oldEmployee = findByCode(employee.getCode());
+        if ("".equals(employee.getPassword())) {
+            // パスワードが空白だった場合
+            employee.setPassword(oldEmployee.getPassword());
 
-        // パスワードチェック
-        ErrorKinds result = employeePasswordCheck(employee);
-        if (ErrorKinds.CHECK_OK != result) {
-            return result;
+        }else {
+         // パスワードチェック
+            ErrorKinds result = employeePasswordCheck(employee);
+            if (ErrorKinds.CHECK_OK != result) {
+                return result;
+            }
         }
 
-        employee.setDeleteFlg(false);
+        employee.setDeleteFlg(oldEmployee.isDeleteFlg());
 
         LocalDateTime now = LocalDateTime.now();
-        employee.setCreatedAt(now);
+        employee.setCreatedAt(oldEmployee.getCreatedAt());
         employee.setUpdatedAt(now);
 
         employeeRepository.save(employee);
