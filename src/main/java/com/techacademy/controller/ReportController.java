@@ -105,8 +105,10 @@ public class ReportController {
     // 日報更新処理画面
     @PostMapping(value = "/{id}/update")
     public String update(@PathVariable Integer id, @Validated Report report, BindingResult res, Model model) {
+        
         Report oldReport = reportService.findById(id);
         report.setEmployee(oldReport.getEmployee());
+        
         report.setId(id);
 
         // 入力チェック
