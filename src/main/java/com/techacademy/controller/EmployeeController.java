@@ -17,6 +17,7 @@ import com.techacademy.constants.ErrorKinds;
 import com.techacademy.constants.ErrorMessage;
 
 import com.techacademy.entity.Employee;
+import com.techacademy.entity.Report;
 import com.techacademy.service.EmployeeService;
 import com.techacademy.service.UserDetail;
 
